@@ -14,19 +14,14 @@
     (setf (aref arr index) value))
 
 (defun addp (instruction)
-    (equal 'add (first instruction)))
+    (equal 1 (first instruction)))
 (defun multp (instruction)
-    (equal 'mult (first instruction)))
+    (equal 2 (first instruction)))
 (defun haltp (instruction)
-    (equal 'halt (first instruction)))
-
-(defun value-to-intcode (intcode)
-    (cond ((equal 1 intcode)  'add)
-          ((equal 2 intcode)  'mult)
-          ((equal 99 intcode) 'halt)))
+    (equal 99 (first instruction)))
 
 (defun get-instruction (program pc)
-    (let ((instruction (list (value-to-intcode (get-at program pc)))))
+    (let ((instruction (list (get-at program pc))))
     (if (haltp instruction) 
         instruction
         (append 
