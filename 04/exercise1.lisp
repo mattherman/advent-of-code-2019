@@ -1,24 +1,31 @@
 (defun int-to-list (val)
     (loop for c across (write-to-string val) collect (digit-char-p c)))
 
-(defun test (digits)
-    (reduce
-        #'(lambda (a b)
-            (let 
-                ((prev (first a))
-                 (increasing (second a))
-                 (already-doubled (third a)))
-            (list
-                b
-                (and (equal t increasing) (<= prev b)) 
-                (or (equal t already-doubled) (equal prev b)))))
-        digits
-        :initial-value '(0 t nil)))
+(defun increasing (digits)
+    (apply #'<= digits))
 
-;; (length (collect 147981 691423)) -> 1790
-(defun collect (begin end)
-    (loop for x from begin to end when
-        (let
-            ((result (test-2 (int-to-list x))))
-        (and (equal t (second result)) (equal t (third result))))
-    collect x))
+(defun split-sequences (digits)
+    (reduce
+        #'(lambda (acc digit)
+            (if (equal (car (car acc)) digit)
+                (list (cons digit (car acc)) (cadr acc))
+                (cons (list digit) acc)))
+        digits
+        :initial-value '()))
+
+(defun any (fn items)
+    (not
+        (equal nil (find-if (lambda (x) (funcall fn x)) items))))
+
+(defun includes-sequence (digits)
+    (any #'(lambda (x) (>= (length x) 2)) (split-sequences digits)))
+
+(defun test (digits)
+    (and (increasing digits) (includes-sequence digits)))
+
+(defun find-matching-passwords (begin end)
+    (loop for x from begin to end when (test (int-to-list x)) collect x))
+
+;; Expect 1790
+(defun run ()
+    (length (find-matching-passwords 147981 691423)))
