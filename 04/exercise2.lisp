@@ -25,7 +25,7 @@
     (reduce
         #'(lambda (acc digit)
             (if (equal (car (car acc)) digit)
-                (list (cons digit (car acc)) (cdr acc)) ;; changed from cadr to cdr, still wrong
+                (cons (cons digit (car acc)) (cdr acc))
                 (cons (list digit) acc)))
         digits
         :initial-value '()))
@@ -46,11 +46,3 @@
 
 (defun run ()
     (length (find-matching-passwords 147981 691423)))
-
-;; strange case, 122344 split gives ((4 4) (3)), expected ((4 4) (3) (2 2) (1))
-;; will successfully be marked as valid, but wondering if this quirk is causing a valid
-;; item to be rejected
-;; figure out what is causing this and you might fix the issue w/o identifying an
-;; actual case
-
-;; made a change and it fixed this case, but must have broken others
