@@ -4,23 +4,6 @@
 (defun increasing (digits)
     (apply #'<= digits))
 
-;; Example - (1 2 2 3)
-;; ()
-;; ((1))
-;; ((2) (1))
-;; ((2 2) (1))
-;; ((3) (2 2) (1))
-;;
-;; acc = ((1)) digit = 1
-;; (list (cons 1 (car ((1)) )) (cadr ((1)) ))
-;; (list (cons 1 (1) )         nil)
-;; (list (1 1)                 nil)
-;; ((1 1) nil)
-;;
-;; acc = ((1)) digit = 2
-;; (cons (list 2) ((1)) )
-;; (cons (2)      ((1)) )
-;; ((2) (1))
 (defun split-sequences (digits)
     (reduce
         #'(lambda (acc digit)
