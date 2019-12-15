@@ -117,7 +117,7 @@
     (let ((ip 0))
         (loop
             (setf instruction (get-instruction program ip))
-            (if (haltp instruction) (return))
+            (if (haltp instruction) (return 'HALT))
             (execute-instruction program instruction)
             (setf ip (+ ip (instruction-size instruction))))))
 
@@ -125,6 +125,4 @@
 
 ;; With input "1", expect 4511442
 (defun run ()
-    (let ((program-memory (load-program-memory)))
-    (progn
-        (execute program-memory))))
+    (execute (load-program-memory)))
