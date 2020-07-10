@@ -7,5 +7,6 @@
     (mapcar
         #'(lambda (orbit-string)
             (let ((split (split-sequence:split-sequence #\) orbit-string)))
-                (list (make-symbol (first split)) (make-symbol (second split)))))
+                (list (intern (first split)) (intern (second split)))))
         input))
+
