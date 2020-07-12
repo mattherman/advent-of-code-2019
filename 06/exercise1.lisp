@@ -32,12 +32,12 @@
     (setf *orbit-counts* (acons planet count *orbit-counts*)) count)
 
 (defun count-orbit (planet)
-    (let ((existing-count (get-orbit-count planet)))
-    (cond ((null existing-count)
-            (let ((orbit (get-orbit planet)))
-            (cond ((null orbit) (set-orbit-count planet 0))
-                  (t (set-orbit-count planet (+ 1 (count-orbit (cdr orbit))))))))
-          (t existing-count))))
+    (let 
+        ((existing-count (get-orbit-count planet))
+         (orbit (get-orbit planet)))
+    (cond ((not (null existing-count)) existing-count)
+          ((not (null orbit)) (set-orbit-count planet (+ 1 (count-orbit (cdr orbit)))))
+          (t (set-orbit-count planet 0)))))
 
 (defun count-orbits ()
     (mapcar #'(lambda (pair)
