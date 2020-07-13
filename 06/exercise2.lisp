@@ -9,10 +9,10 @@
 (defun load-input (file)
     (uiop:read-file-lines file))
 
-;; Takes input of "A)B" and creates (A . B) since we will
-;; be traversing from the root of the tree down
+;; Flips the input pair of "A)B" to be (B . A) to
+;; indicate that B orbits A in the association list
 (defun intern-pair (vals)
-    (cons (intern (first vals)) (intern (second vals))))
+    (cons (intern (second vals)) (intern (first vals))))
 
 (defun orbit-pairs (input)
     (mapcar
