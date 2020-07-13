@@ -1,12 +1,18 @@
 (defparameter *orbits* ())
+(defparameter *planets* ())
+
+(defstruct (planet)
+    (name nil)
+    (transfers nil)
+    (visited nil))
 
 (defun load-input (file)
     (uiop:read-file-lines file))
 
-;; Flips the input pair of "A)B" to be (B . A) to
-;; indicate that B orbits A in the association list
+;; Takes input of "A)B" and creates (A . B) since we will
+;; be traversing from the root of the tree down
 (defun intern-pair (vals)
-    (cons (intern (second vals)) (intern (first vals))))
+    (cons (intern (first vals)) (intern (second vals))))
 
 (defun orbit-pairs (input)
     (mapcar
@@ -15,16 +21,26 @@
                 (split-sequence:split-sequence #\) orbit-string)))
         input))
 
+(defun create-planets (orbits)
+    ())
+
+(defun traverse-transfers (planet-orbited planet)
+    ())
+
 (defun init (file)
     (setf *orbits* (orbit-pairs (load-input file))))
 
 (defun get-orbit (planet)
     (assoc planet *orbits*))
 
+(defun get-orbit-of (planet))
+
 (defun get-orbits (planet)
     (let ((orbit (get-orbit planet)))
     (cond ((null orbit) (list planet))
           (t (cons planet (get-orbits (cdr orbit)))))))
+
+(defun find-shortest-path (from to))
 
 (defun run ()
     (init "input.txt")
