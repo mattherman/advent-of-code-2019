@@ -21,8 +21,15 @@
                 (split-sequence:split-sequence #\) orbit-string)))
         input))
 
-(defun create-planets (orbits)
-    ())
+(defun create-planets ()
+    (mapcar
+        #'(lambda (orbit)
+            (let*
+                (
+                 (transfers (cdr orbit))
+                 (planet (make-planet :name (car orbit) :transfers transfers)))
+            (list planet)))
+    *orbits*))
 
 (defun traverse-transfers (planet-orbited planet)
     ())
