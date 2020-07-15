@@ -21,6 +21,11 @@
                 (split-sequence:split-sequence #\) orbit-string)))
         input))
 
+(defun find-or-create-planet (planet)
+    (let ((existing-planet (assoc planet *planets*)))
+    (cond ((null existing-planet) (make-planet :name planet))
+          (t existing-planet))))
+
 (defun create-planets ()
     (mapcar
         #'(lambda (orbit)
