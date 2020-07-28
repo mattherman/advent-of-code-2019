@@ -58,5 +58,12 @@ module Graph =
         finalDistance
 
 
-let orbits = loadOrbits "simple-input2.txt"
+let orbits = loadOrbits "input.txt"
 let graph = Graph.build orbits
+
+let shortestPath = Graph.shortestPath "YOU" "SAN" graph
+let answer =
+    match shortestPath with
+    // Answer is distance between the objects SAN and YOU are orbiting, not distance between SAN and YOU
+    | Some path -> path - 2 
+    | None -> -1
