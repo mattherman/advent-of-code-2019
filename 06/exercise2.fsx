@@ -1,4 +1,5 @@
 open System.IO
+open System.Collections.Generic
 
 let toTuple (arr: 't[]) =
     match arr with
@@ -34,6 +35,28 @@ module Graph =
 
     let build edges =
         List.fold (fun graph (vertexA, vertexB) -> addEdge vertexA vertexB graph) Map.empty edges
+
+    let shortestPath startingVertex goalVertex (graph: Graph) =
+        let mutable distances: Map<string, int> = Map.empty |> Map.add startingVertex 0
+        let queue = new Queue<string>()
+        queue.Enqueue startingVertex
+        let mutable finalDistance: int option = None
+
+        while queue.Count > 0 && (Option.isNone finalDistance) do
+            let vertex = queue.Dequeue()
+            let distance = distances.Item vertex
+            if vertex = goalVertex then 
+                finalDistance <- Some distance
+            else
+                let unvisitedNeighbors =
+                    edges vertex graph
+                    |> Set.filter (fun n -> not (distances.ContainsKey n))
+                for neighbor in unvisitedNeighbors do
+                    distances <- distances |> Map.add neighbor (distance + 1)
+                    queue.Enqueue neighbor
+
+        finalDistance
+
 
 let orbits = loadOrbits "simple-input2.txt"
 let graph = Graph.build orbits
