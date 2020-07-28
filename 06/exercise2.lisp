@@ -1,3 +1,6 @@
+;; WIP - this was an unfinished solution to exercise 2, for the complete
+;; solution see exercise2.fsx
+
 (defparameter *orbits* ())
 (defparameter *planets* ())
 
